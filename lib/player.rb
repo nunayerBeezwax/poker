@@ -16,7 +16,7 @@ class Player
 	def combine(board)
 		self.hole_cards.each { |card| @hand << card }
 		board.each { |card| @hand << card }
-		Hand.new(@hand, self)
+		@hand.sort_by!{ |card| card.rank }
 		##Let's make it so that when a player makes a hand, they
 		##sort it right there, I guess by rank
 	end
@@ -40,8 +40,8 @@ class Player
 	end
 
 	def decision(hand, bet)
-		if hand.hand.length == 2
-			case self.brain.preflop(hand, bet)
+		if @hand.length == 2
+			case self.brain.preflop(@hand, bet)
 			when 'Call'	
 				self.call(bet)
 				return 'Call'

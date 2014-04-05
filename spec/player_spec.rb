@@ -11,17 +11,14 @@ describe 'Player' do
 		end
 	end
 	describe '#combine' do
-		it 'combines the hole cards with the community cards into a Hand object attached to that player' do
+		it 'combines the hole cards with the community cards into hand array' do
 			test_game = Game.new
 			test_game.dealer.preflop
 			test_game.dealer.flop
 			test_game.dealer.turn
 			test_game.dealer.river
-			test_game.table.showdown
-			test_game.table.hands.length.should eq 9
-			test_game.table.hands[3].hand.length.should eq 7
-			test_game.table.hands[7].should be_an_instance_of Hand
-			test_game.table.hands[5].player.should eq 6
+			test_game.table.players[5].combine(test_game.table.board)
+			test_game.table.players[5].hand.length.should eq 7
 		end
 	end
 

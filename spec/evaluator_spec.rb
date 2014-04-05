@@ -11,9 +11,7 @@ describe Evaluator do
 			test_hand << Card.new('D', 6)
 			test_hand << Card.new('C', 5)
 			test_hand << Card.new('S', 4)
-			test_player = Player.new(1, 1000)
-			hand = Hand.new(test_hand, test_player)
-			Evaluator.make_best(hand).should eq 'straight_flush'
+			Evaluator.make_best(test_hand).should eq 'straight_flush'
 		end
 	end
 
@@ -111,7 +109,7 @@ describe Evaluator do
 			test_hand << Card.new('C', 3)
 			test_hand << Card.new('D', 7)
 			test_hand << Card.new('S', 12)
-			test_hand << Card.new('C', 9)
+			test_hand << Card.new('H', 5)
 			Evaluator.four_of_a_kind(test_hand).should eq false
 		end
 	end

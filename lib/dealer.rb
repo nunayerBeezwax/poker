@@ -8,19 +8,6 @@ class Dealer
 		@table = table
 	end
 
-	def deal
-		@deck.shuffle
-		@table.blinds(1)
-		self.preflop
-		@table.action
-		self.flop
-		@table.action
-		self.turn
-		@table.action
-		self.river
-		@table.action
-	end
-
 	def preflop
 		@table.blinds(1)
 		i = 0

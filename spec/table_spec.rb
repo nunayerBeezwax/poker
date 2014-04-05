@@ -13,15 +13,16 @@ describe 'Table' do
 	end
 
 	describe '#showdown' do
-		it 'collects all remaining players hands into an array' do
-			test_game = Game.new
-			test_game.dealer.preflop
-			test_game.dealer.flop
-			test_game.dealer.turn
-			test_game.dealer.river
-			test_game.table.showdown
-			test_game.table.showdown.length.should eq 9
-		end
+		##### Needs complete rethinking
+		# it 'collects all remaining players hands into an array' do
+		# 	test_game = Game.new
+		# 	test_game.dealer.preflop
+		# 	test_game.dealer.flop
+		# 	test_game.dealer.turn
+		# 	test_game.dealer.river
+		# 	test_game.table.showdown
+		# 	test_game.table.showdown.length.should eq 9
+		# end
 	end
 
 	describe '#pot' do
@@ -40,7 +41,10 @@ describe 'Table' do
 	describe '#button' do
 		it 'starts at a random place on a table and increments(wrapping) each hand' do
 			test_game = Game.new
-			test_game.table.button.should be_between(1, 9)
+			test_game.table.button.should be_between(0, 8)
+			button1 = test_game.table.button
+			test_game.hand
+			test_game.table.button.should eq button1+1 || 0
 		end
 	end	
 

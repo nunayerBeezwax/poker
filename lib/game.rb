@@ -10,7 +10,6 @@ class Game
 		self.table.clear_board
 		self.table.empty_pot
 		self.table.move_button
-		@dealer.preflop
 	end
 
 end

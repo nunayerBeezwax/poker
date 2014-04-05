@@ -16,7 +16,7 @@ describe Brain do
 			board << board_card1
 			board << board_card2
 			board << board_card3
-			hand = Hand.new(player.combine(board), player)
+			hand = player.combine(board)
 			player.brain.draw(hand, 'flop')
 			player.brain.odds['flush'].should be_within(0.005).of(0.3496)
 		end

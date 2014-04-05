@@ -8,19 +8,19 @@ describe Game do
 	  	test_game.dealer.deck.cards.length.should eq 52
 	  	test_game.table.pot.should eq 0
 	  	test_game.table.board.should eq []
-			test_game.table.button.should be_between(1, 9)
+			test_game.table.button.should be_between(0, 8)
 	  end	
 	end
 
 	describe '#hand' do
 		it 'moves the button, empties the pot, clears the board' do
 			test_game = Game.new
-			test_game.table.button.should be_between(1, 9)
+			test_game.table.button.should be_between(0, 8)
 			button_position1 = test_game.table.button
 			test_game.hand
 			test_game.table.pot.should eq 0
 			test_game.table.board.should eq []
-			test_game.table.button.should eq button_position1 + 1
+			test_game.table.button.should eq button_position1 + 1 || 0
 		end
 	end	
 end

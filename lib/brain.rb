@@ -3,15 +3,15 @@ class Brain
 	attr_reader :situation, :hand_types, :outs, :odds, :preflop
 
 	def preflop(hand, bet)
-		if hand.hand[0].rank == hand.hand[1].rank
+		if hand[0].rank == hand[1].rank
 			'Raise'
-		elsif hand.hand[0].suit == hand.hand[1].suit && (hand.hand[0].rank == 14 || hand.hand[1].rank == 14)
+		elsif hand[0].suit == hand[1].suit && (hand[0].rank == 14 || hand[1].rank == 14)
 			'Call'
-		elsif hand.hand[0].rank > 11 && hand.hand[1].rank > 11
+		elsif hand[0].rank > 11 && hand[1].rank > 11
 			'Call'
-		elsif (hand.hand[0].rank - hand.hand[1].rank).abs == 1 && hand.hand[0].suit == hand.hand[1].suit
+		elsif (hand[0].rank - hand[1].rank).abs == 1 && hand[0].suit == hand[1].suit
 			'Call'
-		elsif (hand.hand[0].rank == 14 || hand.hand[1].rank == 14) && hand.hand[0].suit == hand.hand[1].suit
+		elsif (hand[0].rank == 14 || hand[1].rank == 14) && hand[0].suit == hand[1].suit
 			'Call'
 		else 
 			'Fold'
@@ -43,7 +43,7 @@ class Brain
 	end
 
 	def flush_draw(hand, outs)
-		deck = (52 - hand.hand.hand.length).to_f
+		deck = (52 - hand.length).to_f
 		(@outs['flush'] / deck) + (((@outs['flush'] / (deck - 1)) * (1 - @outs['flush'] / deck)))
 	end
 
@@ -73,7 +73,7 @@ class Brain
 		suit_count = 0
 		suits = %w{ H S C D }
 		suits.each do |s|
-			count = hand.hand.hand.count { |card| card.suit == s }
+			count = hand.count { |card| card.suit == s }
 			if count > suit_count 
 				suit_count = count
 			end

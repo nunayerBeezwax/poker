@@ -37,25 +37,25 @@ class Table
 	end
 
 	def showdown
-		@hands = []
-		winner = []
-		@players.each do |player|
-			@hands << player.combine(@board)
-		end
-		@hands.each do |hand, player|
-			winner << "Player #{hand.player}: #{Evaluator.make_best(hand)}"
-		end
-		@players.each do |player|
-			puts "---------"
-			player.hole_cards.each do |card|
-				puts "#{player.seat}: #{card.rank} #{card.suit}"
-			end
-		end
-		@board.each do |card|
-			puts "#{card.rank} #{card.suit}"
-		end
-		puts winner
-		return winner
+		### Needs significant retooling
+		# @hands = []
+		# winner = []
+		# @players.each do |player|
+		# 	@hands << player.combine(@board)
+		# end
+		# @hands.each do |hand|
+		# 	winner << "Player #{hand.player.seat}: #{Evaluator.make_best(hand)}"
+		# end
+		# @players.each do |player|
+		# 	puts "---------"
+		# 	player.hole_cards.each do |card|
+		# 		puts "#{player.seat}: #{card.rank} #{card.suit}"
+		# 	end
+		# end
+		# @board.each do |card|
+		# 	puts "#{card.rank} #{card.suit}"
+		# end
+		# return winner
 	end
 
 	def active_players

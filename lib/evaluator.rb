@@ -1,7 +1,6 @@
 class Evaluator
 	
 	def Evaluator.make_best(hand)
-		hand = hand.hand
 		score = 0
 		best_hand = { 1 => 'high_card', 2 => 'pair', 3 => 'two_pair', 4 => 'three_of_a_kind',
 					  5 => 'straight', 6 => 'flush', 7 => 'full_house', 8 => 'four_of_a_kind',
@@ -32,13 +31,11 @@ class Evaluator
 
 	def self.two_pair(hand)
 		pairs = 0
-
 		13.times do |i|
 			if hand.count { |card| card.rank == i + 1 } == 2
 				pairs += 1
 			end
 		end
-	
 		pairs >= 2
 	end
 
@@ -76,7 +73,6 @@ class Evaluator
 
 	def self.flush(hand)
 		suits = %w{ H S C D }
-
 		suits.each do |s|
 			return true if hand.count { |card| card.suit == s } >= 5
 		end
@@ -100,12 +96,12 @@ class Evaluator
 	end
 
 	def self.four_of_a_kind(hand)
-        13.times do |i|
-        	if hand.count { |card| card.rank == i + 1 } == 4
-        		return true
-        	end
-        end
-        false		
+    13.times do |i|
+    	if hand.count { |card| card.rank == i + 1 } == 4
+    		return true
+    	end
+    end
+    false		
 	end
 
 	def self.straight_flush(hand)

@@ -3,7 +3,6 @@ require './lib/evaluator'
 require './lib/game'
 require './lib/deck'
 require './lib/player'
-require './lib/hand'
 require './lib/table'
 require './lib/card'
 require './lib/brain'
@@ -59,6 +58,10 @@ def new_game
 		else
 			user.fold
 		end
+	puts "Which means the players still in the hand are: "
+	table.active_players.each do |player|
+	 	puts "#{player.seat}"
+	end
 	puts "Press 'F' to see the flop:"
 	choice = gets.chomp.downcase
 		if choice == 'f'
@@ -101,7 +104,7 @@ def new_game
 	user_hand = user.combine(game.table.board)
 	puts "You got a #{Evaluator.make_best(user_hand)}"
 	game.table.active_players.each do |player|
-		puts "Player #{player.seat} got a #{Evaluator.make_best(player.combine(game.table.board))}"
+		puts "Player #{player.seat} got a #{Evaluator.make_best(player.combine(table.board))}"
 	end
 	main_menu
 end

@@ -13,14 +13,6 @@ end
 		end
 	end
 
-	describe '#deal' do
-		it 'controls play of an individual deal' do
-			test_game = Game.new
-			test_game.dealer.deal
-			test_game.table.pot.should > 0
-		end
-	end
-
 	describe '#preflop' do
 		it 'removes cards from the deck, gameing 2 cards to each player' do
 			test_game = Game.new
