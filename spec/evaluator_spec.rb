@@ -65,10 +65,10 @@ describe Evaluator do
 			test_hand << Card.new('S', 3)
 			test_hand << Card.new('H', 3)
 			test_hand << Card.new('C', 7)
-			test_hand << Card.new('D', 7)
+			test_hand << Card.new('D', 8)
 			test_hand << Card.new('S', 12)
 			test_hand << Card.new('C', 9)
-			Evaluator.two_pair(test_hand).should eq true
+			Evaluator.two_pair(test_hand).should eq false
 		end
 	end
 
@@ -95,7 +95,7 @@ describe Evaluator do
 			test_hand << Card.new('C', 4)
 			test_hand << Card.new('D', 4)
 			test_hand << Card.new('S', 3)
-			test_hand << Card.new('C', 9)
+			test_hand << Card.new('C', 4)
 			Evaluator.full_house(test_hand).should eq true
 		end
 	end

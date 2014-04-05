@@ -82,7 +82,6 @@ class Evaluator
 	def self.full_house(hand)
 		trips = 0
 		pairs = 0
-		
 		13.times do |i|
 			if hand.count { |card| card.rank == i + 1 } == 3
 				trips += 1
@@ -91,8 +90,7 @@ class Evaluator
 				pairs += 1
 			end
 		end
-		
-		trips >= 1 && pairs >= 1
+		trips >= 1 && pairs >= 1 || trips == 2
 	end
 
 	def self.four_of_a_kind(hand)

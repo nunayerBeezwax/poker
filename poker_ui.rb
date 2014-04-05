@@ -28,45 +28,35 @@ def new_game
 	table = game.table
 	dealer = game.dealer
 	players = table.players
-	user = game.table.players[0]
-	##this 0 can be a .sample to be randomized, just hard coded it to mess with other things
-	puts "Press 'D' to deal"
-	choice = gets.chomp.downcase
-		case choice
-		when 'd'
-			dealer.preflop
-		end
-	puts "\nYour hole cards are:",
-			 "----------------------"
-	puts "#{user.hole_cards[0].rank} of #{user.hole_cards[0].suit}",
-				"#{user.hole_cards[1].rank} of #{user.hole_cards[1].suit}",
-			 "-------", 
-			 "You have #{user.chips} chips",
-			 "The pot is #{table.pot}"
-	players[1..8].each do |p|
+	# Looking at things, user functionality for later
+	# user = game.table.sample
+	puts "Press 'd' to Shuffle up and Deal"
+	if gets.chomp =='d'
+		dealer.preflop
+	end
+
+	puts"The pot is #{table.pot}",
+			 "----------------"
+	players[0..8].each do |p|
 		puts "#Player #{p.seat} has",
+				 "-------------------",
 				 "#{p.hole_cards[0].rank} of #{p.hole_cards[0].suit}",
 				 "#{p.hole_cards[1].rank} of #{p.hole_cards[1].suit}",
-				 "and so will #{p.decision(p.combine(table.board), 100)}"
+				 "and so will #{p.decision(p.combine(table.board), 100)}",
+				 "-----------------"
 	end
 	table.action
-	puts "Press 'C' to call"
-	call = gets.chomp.downcase
-		if call == 'c'
-			##need to turn this into a variable which references current bet or just bb
-			user.call(100)
-		else
-			user.fold
-		end
-	puts "Which means the players still in the hand are: "
+
+	puts "Here the players still in the hand are: "
 	table.active_players.each do |player|
 	 	puts "#{player.seat}"
 	end
-	puts "Press 'F' to see the flop:"
-	choice = gets.chomp.downcase
-		if choice == 'f'
-			dealer.flop
-		end
+
+	puts "Press 'Enter' to move to the flop:"
+	if gets.chomp == '\n'
+		dealer.flop
+	end
+
 	puts "There are #{table.active_players.count} players still in the hand"
 	puts "The pot is now #{game.table.pot}"
 	puts "Your chip stack is #{user.chips}"
