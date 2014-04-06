@@ -60,11 +60,15 @@ describe 'Table' do
 	end
 
 	describe '#active_players' do
-		it 'holds a temporary count of non-folded players at a given time' do
-			test_game = Game.new
-			test_game.dealer.preflop
-			test_game.table.action
-			test_game.table.active_players.count.should < 7
+		it 'returns an array of non-folded players at a given time, with their hands' do
+			table = Table.new(9)
+			table.dealer.preflop
+			table.action
+			binding.pry
+			table.dealer.flop
+			table.action
+			table.active_players.count.should < 7
+			(table.pot.should eq 0) || (table.active_players[0].hand.count.should eq 5) 
 		end
 	end
 

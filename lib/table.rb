@@ -1,9 +1,10 @@
 class Table
 
-	attr_reader :players, :board, :hands, :pot, :button, :active_players, :sb, :bb, :action
+	attr_reader :players, :dealer, :board, :hands, :pot, :button, :active_players, :sb, :bb, :action
 
 	def initialize(num_of_players)
 		@players = []
+		@dealer = Dealer.new(self)
 		num_of_players.times { @players << Player.new(@players.length+1, 1000) }
 		@board = []
 		@pot = 0
@@ -15,20 +16,16 @@ class Table
 		@board << card
 	end
 
-	#rotate is pretty cool, think this is the right way, though I don't yet know
-	#how the each loop will interact with all the intermediary decisions/actions
-	#the condition means to assure that only non-folded players get to make decisions
-	#SAME CONDITION WILL NEED TO BE ADDED IN SHOWDOWN, probably other places too
-	def action
-		@players.rotate(@button + 1).each do |player|
-			if player.hole_cards.count == 2
-				hand = player.combine(@board)
-				if player.decision(hand, @pot) == 'Call'
-					@pot += 100
-				elsif player.decision(hand, @pot) == 'Raise'
-					self.bet(300)
-				end
-			end
+	def action(player)
+		hand = player.combine(@board)
+		if player.decision(hand, @bb) == 'Call'
+			@pot += @bb
+			return 'Call'
+		elsif player.decision(hand, @pot) == 'Raise'
+			self.bet(@bb * 3)
+			return 'Raise'
+		else
+			return 'Fold'
 		end
 	end
 
@@ -59,8 +56,10 @@ class Table
 	end
 
 	def active_players
-		@players.select do |player| 
-			player.hole_cards.count == 2
+		@players.select do |player|
+			if player.hole_cards.count == 2
+				player.combine(@board)
+			end
 		end
 	end
 

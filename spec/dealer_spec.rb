@@ -8,8 +8,8 @@ end
 	describe '#initialize' do
 		it 'makes and shuffles a deck from which to deal random cards' do
 			test_game = Game.new
-			test_game.dealer.deck.cards.length.should eq 52
-			test_game.dealer.deck.cards[33].should be_an_instance_of Card
+			test_game.table.dealer.deck.cards.length.should eq 52
+			test_game.table.dealer.deck.cards[33].should be_an_instance_of Card
 		end
 	end
 

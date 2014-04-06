@@ -1,9 +1,8 @@
 class Game
-	attr_reader :table, :dealer
+	attr_reader :table, :dealer, :hand
 
 	def initialize
 		@table = Table.new(9)
-		@dealer = Dealer.new(@table)
 	end
 
 	def hand

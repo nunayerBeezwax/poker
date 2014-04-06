@@ -17,8 +17,6 @@ class Player
 		self.hole_cards.each { |card| @hand << card }
 		board.each { |card| @hand << card }
 		@hand.sort_by!{ |card| card.rank }
-		##Let's make it so that when a player makes a hand, they
-		##sort it right there, I guess by rank
 	end
 
 	def fold

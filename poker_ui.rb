@@ -26,46 +26,63 @@ end
 def new_game
 	game = Game.new
 	table = game.table
-	dealer = game.dealer
+	dealer = game.table.dealer
 	players = table.players
+	button = table.button
 	# Looking at things, user functionality for later
 	# user = game.table.sample
 	puts "Press 'd' to Shuffle up and Deal"
 	if gets.chomp =='d'
 		dealer.preflop
 	end
-
+	puts "Button is on #{button + 1}"
+	puts "Blinds are #{table.sb} #{table.bb}"
 	puts"The pot is #{table.pot}",
 			 "----------------"
-	players[0..8].each do |p|
-		puts "#Player #{p.seat} has",
-				 "-------------------",
-				 "#{p.hole_cards[0].rank} of #{p.hole_cards[0].suit}",
-				 "#{p.hole_cards[1].rank} of #{p.hole_cards[1].suit}",
-				 "and so will #{p.decision(p.combine(table.board), 100)}",
-				 "-----------------"
+	fta = dealer.first_to_act
+	p = table.players.find{ |p| p.seat == fta }
+	binding.pry
+	9.times do 
+		puts "Action is on #{dealer.action_tracker}"
+		puts "Who has #{p.chips} chips and",
+					"#{p.hole_cards[0].rank} of #{p.hole_cards[0].suit}",
+					"#{p.hole_cards[1].rank} of #{p.hole_cards[1].suit}",
+					"and so will #{dealer.action_driver}",
+					"-----------------"
+	p = table.players.find { |p| p.seat == dealer.action_tracker }
 	end
-	table.action
 
-	puts "Here the players still in the hand are: "
+	puts "The players still in the hand are: "
 	table.active_players.each do |player|
 	 	puts "#{player.seat}"
 	end
 
-	puts "Press 'Enter' to move to the flop:"
-	if gets.chomp == '\n'
+	puts "Press 'F' to move to the flop:"
+	if gets.chomp == 'f'
 		dealer.flop
 	end
 
 	puts "There are #{table.active_players.count} players still in the hand"
 	puts "The pot is now #{game.table.pot}"
-	puts "Your chip stack is #{user.chips}"
 	puts "\nHere is the flop:",
 			 "--------------------",
 			 "#{game.table.board[0].rank} of #{game.table.board[0].suit}",
 			 "#{game.table.board[1].rank} of #{game.table.board[1].suit}",
 			 "#{game.table.board[2].rank} of #{game.table.board[2].suit}",
 			 "-------"
+
+	active_players.each do |p|
+		puts "#Player #{p.seat} will #{p.decision(p.combine(table.board), 100)}",
+				 "-----------------"
+	end
+
+	table.action 
+
+	puts "Now the players still in the hand are: "
+	table.active_players.each do |player|
+	 	puts "#{player.seat}"
+	end
+
 	puts "Press 'T' to see the turn:"
 	choice = gets.chomp.downcase
 		if choice == 't'
@@ -79,10 +96,10 @@ def new_game
 			 "#{game.table.board[3].rank} of #{game.table.board[3].suit}",
 			 "-------"
 	puts "Press 'R' to see the river:"
-	choice = gets.chomp.downcase
-		if choice == 'r'
+	if gets.chomp == 'r'
 			game.dealer.river
-		end
+	end
+
 	puts "\nHere is the river:",
 			 "--------------------",
 			 "#{game.table.board[0].rank} of #{game.table.board[0].suit}",
@@ -91,8 +108,7 @@ def new_game
 			 "#{game.table.board[3].rank} of #{game.table.board[3].suit}",
 			 "#{game.table.board[4].rank} of #{game.table.board[4].suit}",
 			 "-------"
-	user_hand = user.combine(game.table.board)
-	puts "You got a #{Evaluator.make_best(user_hand)}"
+
 	game.table.active_players.each do |player|
 		puts "Player #{player.seat} got a #{Evaluator.make_best(player.combine(table.board))}"
 	end

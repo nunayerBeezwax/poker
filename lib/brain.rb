@@ -7,7 +7,7 @@ class Brain
 			'Raise'
 		elsif hand[0].suit == hand[1].suit && (hand[0].rank == 14 || hand[1].rank == 14)
 			'Call'
-		elsif hand[0].rank > 11 && hand[1].rank > 11
+		elsif hand[0].rank >= 10 && hand[1].rank >= 10
 			'Call'
 		elsif (hand[0].rank - hand[1].rank).abs == 1 && hand[0].suit == hand[1].suit
 			'Call'
