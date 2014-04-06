@@ -22,44 +22,44 @@ describe Brain do
 		end
 	end
 
-	describe '#prefop' do
+	describe '#preflop' do
 		it 'doesn\'t always call' do
-			test_player = Player.new(1, 1000)
+			test_player = Player.new(1, 1000, Table.new(9))
 			test_player.hole_cards << Card.new('H', 10)
 			test_player.hole_cards << Card.new('D', 9)
 			hand = test_player.combine([])
 			test_player.decision(hand, 100).should eq 'Fold'
 		end
 		it 'raises with any pair' do
-			test_player = Player.new(1, 1000)
+			test_player = Player.new(1, 1000, Table.new(9))
 			test_player.hole_cards << Card.new('H', 10)
 			test_player.hole_cards << Card.new('D', 10)
 			hand = test_player.combine([])
 			test_player.decision(hand, 100).should eq 'Raise'
 		end
 		it 'calls with any suited ace' do
-			test_player = Player.new(1, 1000)
+			test_player = Player.new(1, 1000, Table.new(9))
 			test_player.hole_cards << Card.new('H', 14)
 			test_player.hole_cards << Card.new('H', 4)
 			hand = test_player.combine([])
 			test_player.decision(hand, 100).should eq 'Call'
 		end
 		it 'calls with two high cards' do
-			test_player = Player.new(1, 1000)
+			test_player = Player.new(1, 1000, Table.new(9))
 			test_player.hole_cards << Card.new('S', 12)
 			test_player.hole_cards << Card.new('D', 13)
 			hand = test_player.combine([])
 			test_player.decision(hand, 100).should eq 'Call'
 		end
 		it 'calls with suited connectors' do
-			test_player = Player.new(1, 1000)
+			test_player = Player.new(1, 1000, Table.new(9))
 			test_player.hole_cards << Card.new('D', 5)
 			test_player.hole_cards << Card.new('D', 6)
 			hand = test_player.combine([])
 			test_player.decision(hand, 100).should eq 'Call'	
 		end
 		it 'calls with any suited ace' do
-			test_player = Player.new(1, 1000)
+			test_player = Player.new(1, 1000, Table.new(9))
 			test_player.hole_cards << Card.new('D', 5)
 			test_player.hole_cards << Card.new('D', 14)
 			hand = test_player.combine([])

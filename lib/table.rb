@@ -18,7 +18,7 @@ class Table
 	end
 
 	def action(player)
-		hand = player.hand
+		hand = player.combine(@board)
 		case player.decision(hand, @current_bet) 
 		when 'Call'
 			@pot += @current_bet
@@ -36,28 +36,6 @@ class Table
 	def bet(amount)
 		@pot += amount
 		@current_bet = amount
-	end
-
-	def showdown
-		### Needs significant retooling
-		# @hands = []
-		# winner = []
-		# @players.each do |player|
-		# 	@hands << player.combine(@board)
-		# end
-		# @hands.each do |hand|
-		# 	winner << "Player #{hand.player.seat}: #{Evaluator.make_best(hand)}"
-		# end
-		# @players.each do |player|
-		# 	puts "---------"
-		# 	player.hole_cards.each do |card|
-		# 		puts "#{player.seat}: #{card.rank} #{card.suit}"
-		# 	end
-		# end
-		# @board.each do |card|
-		# 	puts "#{card.rank} #{card.suit}"
-		# end
-		# return winner
 	end
 
 	def active_players
@@ -78,14 +56,13 @@ class Table
 
 	def move_button
 		@button += 1
-		if @button == @players.count
-			@button = 0
+		if @button > @players.count
+			@button = 1
 		end
 	end
 
-## need to find a way to do a clock or hand counter to increment blinds
-## otherwise, pretty confident they are functioning properly
-## can do with refactoring as to the index out of range issue
+###### Blinds ####
+
 	def blinds_table
 		@blinds_table = { 1 => 50, 2 => 100, 3 => 200, 4 => 400 }
 	end
@@ -97,8 +74,7 @@ class Table
 
 	def small_blind(level)
 		@sb = (self.blinds_table[level]) / 2
-		@players.find{|p|p.seat==button+1}.ante(@sb)
-		self.bet(@sb)
+		@players.find{|p|p.seat==(@dealer.action_tracker)}.ante(@sb)
 	end
 
 	def big_blind(level)
@@ -108,8 +84,32 @@ class Table
 		elsif @button + 2 == 11
 			@players[1].ante(@bb)
 		else
-			@players.find{|p|p.seat==@button+2}.ante(@bb)
+			@players.find{|p|p.seat==@dealer.action_tracker+1}.ante(@bb)
 		end
-		self.bet(@bb)
 	end
 end
+
+###### Future Projects #######3
+
+
+	# def showdown
+		### Needs significant retooling
+		# @hands = []
+		# winner = []
+		# @players.each do |player|
+		# 	@hands << player.combine(@board)
+		# end
+		# @hands.each do |hand|
+		# 	winner << "Player #{hand.player.seat}: #{Evaluator.make_best(hand)}"
+		# end
+		# @players.each do |player|
+		# 	puts "---------"
+		# 	player.hole_cards.each do |card|
+		# 		puts "#{player.seat}: #{card.rank} #{card.suit}"
+		# 	end
+		# end
+		# @board.each do |card|
+		# 	puts "#{card.rank} #{card.suit}"
+		# end
+		# return winner
+	# end

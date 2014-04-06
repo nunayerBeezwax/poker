@@ -4,6 +4,7 @@ class Player
 	def initialize(seat, chips, table)
 		@hole_cards = []
 		@chips = chips
+		### Maybe have a 'position' attribute?
 		@seat = seat
 		@table = table
 		@hand = []
@@ -28,12 +29,14 @@ class Player
 
 	def call(amount)
 		@chips -= amount
+		@table.bet(amount)
 		'Call'
 	end
 
 	def raise(amount)
 		@chips -= amount
 		@raise = amount 
+		@table.bet(amount)
 		'Raise'
 	end
 

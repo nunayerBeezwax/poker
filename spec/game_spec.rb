@@ -5,7 +5,7 @@ describe Game do
 	  it 'sets up a new game, with a table(with players) and a dealer(with a deck)' do	
 	  	test_game = Game.new
 	  	test_game.table.players.length.should eq 9
-	  	test_game.dealer.deck.cards.length.should eq 52
+	  	test_game.table.dealer.deck.cards.length.should eq 52
 	  	test_game.table.pot.should eq 0
 	  	test_game.table.board.should eq []
 			test_game.table.button.should be_between(0, 8)

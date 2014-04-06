@@ -48,9 +48,10 @@ def new_game
 			 	 "#{p.hole_cards[0].rank} of #{p.hole_cards[0].suit}",
 				 "It's #{table.current_bet} to call",
 				 "Player #{p.seat} #{dealer.action_driver}s",
+				 "And so has #{p.chips} left.",
 				 "-----------------"
 		print "Press Enter to move to the next player:"
-		choice = gets.chomp
+		gets.chomp
 		p = table.players.find { |p| p.seat == dealer.action_tracker }
 	end
 
