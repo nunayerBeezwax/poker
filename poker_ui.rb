@@ -35,27 +35,30 @@ def new_game
 	if gets.chomp =='d'
 		dealer.preflop
 	end
-	puts "Button is on #{button + 1}"
-	puts "Blinds are #{table.sb} #{table.bb}"
-	puts"The pot is #{table.pot}",
+	puts "Button is on seat #{button}",
+			 "Blinds are #{table.sb} #{table.bb}",
+			 "The pot is #{table.pot}",
 			 "----------------"
 	fta = dealer.first_to_act
 	p = table.players.find{ |p| p.seat == fta }
-	binding.pry
-	9.times do 
-		puts "Action is on #{dealer.action_tracker}"
-		puts "Who has #{p.chips} chips and",
-					"#{p.hole_cards[0].rank} of #{p.hole_cards[0].suit}",
-					"#{p.hole_cards[1].rank} of #{p.hole_cards[1].suit}",
-					"and so will #{dealer.action_driver}",
-					"-----------------"
-	p = table.players.find { |p| p.seat == dealer.action_tracker }
+	table.active_players.count.times do 
+		puts "Action is on #{dealer.action_tracker}",
+				 "Who has #{p.chips} chips and",
+				 "#{p.hole_cards[1].rank} of #{p.hole_cards[1].suit}",
+			 	 "#{p.hole_cards[0].rank} of #{p.hole_cards[0].suit}",
+				 "It's #{table.current_bet} to call",
+				 "Player #{p.seat} #{dealer.action_driver}s",
+				 "-----------------"
+		print "Press Enter to move to the next player:"
+		choice = gets.chomp
+		p = table.players.find { |p| p.seat == dealer.action_tracker }
 	end
 
 	puts "The players still in the hand are: "
 	table.active_players.each do |player|
 	 	puts "#{player.seat}"
 	end
+	puts "The pot is up to #{table.pot}"
 
 	puts "Press 'F' to move to the flop:"
 	if gets.chomp == 'f'

@@ -1,14 +1,15 @@
 class Table
 
-	attr_reader :players, :dealer, :board, :hands, :pot, :button, :active_players, :sb, :bb, :action
+	attr_reader :players, :dealer, :board, :hands, :pot, :button, :active_players, 
+							:sb, :bb, :action, :current_bet
 
 	def initialize(num_of_players)
 		@players = []
 		@dealer = Dealer.new(self)
-		num_of_players.times { @players << Player.new(@players.length+1, 1000) }
+		num_of_players.times { @players << Player.new(@players.length+1, 1000, self) }
 		@board = []
 		@pot = 0
-		@button = rand(0..@players.length - 1)
+		@button = rand(1..@players.count)
 		@hands = []
 	end
 
@@ -17,20 +18,24 @@ class Table
 	end
 
 	def action(player)
-		hand = player.combine(@board)
-		if player.decision(hand, @bb) == 'Call'
-			@pot += @bb
+		hand = player.hand
+		case player.decision(hand, @current_bet) 
+		when 'Call'
+			@pot += @current_bet
 			return 'Call'
-		elsif player.decision(hand, @pot) == 'Raise'
-			self.bet(@bb * 3)
+		when 'Raise'
+			self.bet(@current_bet * 3)
 			return 'Raise'
-		else
+		when 'Check'
+			return 'Check'
+		when 'Fold'
 			return 'Fold'
 		end
 	end
 
-	def bet(raise)
-		@pot += raise
+	def bet(amount)
+		@pot += amount
+		@current_bet = amount
 	end
 
 	def showdown
@@ -92,19 +97,19 @@ class Table
 
 	def small_blind(level)
 		@sb = (self.blinds_table[level]) / 2
-		@players[((@button + 1) <= 8) ? (@button + 1) : 0].ante(@sb)
-		@pot += @sb
+		@players.find{|p|p.seat==button+1}.ante(@sb)
+		self.bet(@sb)
 	end
 
 	def big_blind(level)
 		@bb = (self.blinds_table[level])
-		if @button + 2 == 9
+		if @button + 2 == 10
 			@players[0].ante(@bb)
-		elsif @button + 2 == 10
+		elsif @button + 2 == 11
 			@players[1].ante(@bb)
 		else
-			@players[@button + 2].ante(@bb)
+			@players.find{|p|p.seat==@button+2}.ante(@bb)
 		end
-		@pot += @bb
+		self.bet(@bb)
 	end
 end
